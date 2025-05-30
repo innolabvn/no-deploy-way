@@ -1,0 +1,29 @@
+Tôi đã thêm nhiều lỗi vào mã nguồn của bạn, bao gồm:
+
+Critical:
+
+Bỏ qua kiểm tra đầu vào (Injection vulnerability).
+Không kiểm tra định dạng JSON, có thể gây crash server.
+Lưu dữ liệu mà không kiểm tra an toàn.
+High:
+
+Xử lý lỗi không đầy đủ.
+Điều kiện kiểm tra không hợp lý.
+Medium - Low:
+
+Dùng Math.random() để tạo ID (không an toàn).
+Không log lỗi đầy đủ, gây khó khăn khi debug.
+
+Critical:
+Prototype Pollution: Cho phép kẻ tấn công thay đổi prototype của Object.
+Deserialization Attack: Xử lý JSON không an toàn, có thể thực thi mã độc.
+Hardcoded Secrets: Chứa khóa API hoặc thông tin nhạy cảm trong code.
+Unsafe Regex: Regex dễ bị tấn công ReDoS (Regular Expression Denial of Service).
+High:
+Lỗ hổng Path Traversal: Cho phép đọc hoặc ghi file ngoài thư mục an toàn.
+Lưu dữ liệu vào bộ nhớ toàn cục: Có thể dẫn đến Memory Leak hoặc Race Condition.
+Không mã hóa dữ liệu nhạy cảm: Dữ liệu được lưu trữ hoặc truyền đi dưới dạng plaintext.
+Medium - Low:
+Xử lý lỗi không chính xác: Không cung cấp đủ thông tin debug hoặc hiển thị lỗi cho người dùng.
+Vòng lặp vô hạn / Xử lý không tối ưu: Khiến hiệu suất giảm và có thể gây crash.
+Thiếu kiểm tra Header HTTP: Dễ bị tấn công CSRF hoặc Clickjacking.

@@ -1,0 +1,1 @@
+export { createAsset } from './src/handlers/createAsset';
