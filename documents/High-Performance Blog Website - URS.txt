@@ -1,0 +1,104 @@
+## User Requirements Specification (URS)
+
+Project: High-Performance Blog Website
+Version: 1.0
+Date: May 2025
+
+---
+
+### 1. Purpose
+
+This document defines the user requirements for a high-performance blog website. The blog is intended to provide high availability, fast page loading, scalability under load, and support for typical blog functionalities such as post creation, commenting, and subscriptions. The URS will serve as a basis for development, testing, and UAT validation.
+
+---
+
+### 2. Scope
+
+This website is aimed at:
+
+* Public users who browse and read blog content.
+* Administrators who create and manage blog posts, comments, and subscriptions.
+* The system must be accessible on desktop and mobile devices.
+* The focus of this URS is on performance-related expectations under realistic workload conditions.
+
+---
+
+### 3. Definitions
+
+| Term             | Definition                                                          |
+| ---------------- | ------------------------------------------------------------------- |
+| URS              | User Requirement Specification                                      |
+| UAT              | User Acceptance Testing                                             |
+| Page Load Time   | Time from initiating page request to full content render            |
+| Concurrent Users | Number of users actively interacting with the system simultaneously |
+| PV               | Page Views                                                          |
+| CDN              | Content Delivery Network                                            |
+| SLA              | Service Level Agreement                                             |
+
+---
+
+### 4. References
+
+* Google PageSpeed Insights guidelines
+* Web.dev Performance Standards
+* OWASP Performance and Scalability Best Practices
+* Google Lighthouse Testing Tool
+* Load testing tools: k6, Artillery, JMeter
+
+---
+
+### 5. Functional Requirements
+
+#### FR-01 – Browse Blog Posts
+
+* Users can view blog posts by category, tag, or search keyword.
+* The system must serve each page with < 1.5s load time for 95% of requests under 300 concurrent users.
+
+#### FR-02 – View Single Blog Post
+
+* A detailed blog post must be fully loaded within 1.8s (first contentful paint) even without caching.
+* Must support at least 3,000 PV/min.
+
+#### FR-03 – Comment on Posts
+
+* Authenticated users can comment on posts.
+* Anti-spam CAPTCHA must be integrated.
+* Server must handle 20 simultaneous comment submissions without exceeding 500ms API latency.
+
+#### FR-04 – Subscribe to Newsletter
+
+* Users can subscribe to receive email notifications when new posts are published.
+* The system must handle 100 concurrent subscription requests smoothly.
+
+#### FR-05 – Admin: Manage Posts
+
+* Admins must be able to create, edit, and delete blog posts using a content editor.
+* Uploading media should not block the main thread and should process asynchronously.
+
+#### FR-06 – Site Search
+
+* Users can search content with auto-suggestions.
+* Search results must return within 500ms under a load of 50 concurrent search queries.
+
+#### FR-07 – Social Sharing
+
+* Each blog post must include share buttons (Facebook, LinkedIn, X).
+
+---
+
+### 6. Technical Principles and Constraints
+
+| ID    | Principle / Constraint | Detail                                                                                           |
+| ----- | ---------------------- | ------------------------------------------------------------------------------------------------ |
+| TC-01 | Performance Goal   	 | Homepage and key content pages must load under 1.5s for 95% of global users.                     |
+| TC-02 | Caching            	 | Use Redis and HTTP headers for dynamic and static content caching.                               |
+| TC-03 | CDN                	 | All static content (JS, CSS, images, HTML) must be served via a global CDN.                      |
+| TC-04 | Scalability        	 | System must support 300 concurrent users with no 5xx errors.                                     |
+| TC-05 | API Response Time  	 | All public APIs must respond < 300ms for 90th percentile requests.                               |
+| TC-06 | Resilience         	 | After a server restart, system should recover fully within 30 seconds.                           |
+| TC-07 | Rate Limiting      	 | Limit request burst from bots and crawlers (e.g. 100 req/sec max).                               |
+| TC-08 | SEO Compliance     	 | Page structure must follow SEO best practices (sitemap.xml, robots.txt, meta tags).              |
+| TC-09 | Security           	 | All data must be transmitted via HTTPS. Input fields must be sanitized to prevent XSS/SQLi.      |
+| TC-10 | Monitoring         	 | Integrate APM (Application Performance Monitoring) and Alerting tools (e.g., New Relic, Sentry). |
+
+---
